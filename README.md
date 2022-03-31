@@ -3,27 +3,7 @@
 Ruby wrapper for [UglifyJS](https://github.com/mishoo/UglifyJS2) JavaScript
 compressor.
 
-UglifyJS currently is extensively tested with ES5, but also includes experimental ES6/ES2015+/Harmony support.
-
-More stable alternatives for working with ES6 code is to first transpile to ES5 with e.g. [babel-transpiler](https://github.com/babel/ruby-babel-transpiler) or using [Closure Compiler](https://github.com/documentcloud/closure-compiler) to directly minify ES6 code.
-
-[![Build Status](https://travis-ci.org/lautis/uglifier.svg?branch=master)](https://travis-ci.org/lautis/uglifier)
-
-## ES6 / ES2015+ / Harmony mode
-
-When using Uglifier with ES6 syntax without any options, an error will be
-thrown.
-
-```
-Uglifier::Error: Unexpected token: punc ((). To use ES6 syntax, harmony mode must be enabled with Uglifier.new(:harmony => true).
-```
-
-The experimental ES6 syntax support can be enabled by passing `:harmony => true`
-option to Uglifier.
-
-```ruby
-Uglifier.compile(js, harmony: true)
-```
+UglifyJS only works with ES5. If you need to compress ES6, [ruby-terser](https://github.com/ahorek/terser-ruby) is a better option.
 
 ### Rails
 
@@ -96,8 +76,8 @@ Available options and their defaults are
     :indent_start => 0,         # Starting indent level
     :width => 80,               # Specify line width when beautifier is used (only with beautifier)
     :preamble => nil,           # Preamble for the generated JS file. Can be used to insert any code or comment.
-    :wrap_iife => false         # Wrap IIFEs in parenthesis. Note: this disables the negate_iife compression option.
-    :shebang => true            # Preserve shebang (#!) in preamble (shell scripts)
+    :wrap_iife => false,        # Wrap IIFEs in parenthesis. Note: this disables the negate_iife compression option.
+    :shebang => true,           # Preserve shebang (#!) in preamble (shell scripts)
     :quote_style => 0,          # Quote style, possible values :auto (default), :single, :double, :original
     :keep_quoted_props => false # Keep quotes property names
   },
@@ -113,7 +93,7 @@ Available options and their defaults are
     :regex => nil,              # A regular expression to filter property names to be mangled
     :ignore_quoted => false,    # Only mangle unquoted property names
     :debug => false,            # Mangle names with the original name still present
-  }                             # Mangle property names, disabled by default
+  },                            # Mangle property names, disabled by default
   :compress => {
     :sequences => true,         # Allow statements to be joined by commas
     :properties => true,        # Rewrite property access using the dot notation
@@ -168,6 +148,7 @@ Available options and their defaults are
     :output_filename => nil,    # The filename or URL where the minified output can be found
     :input_source_map => nil    # The contents of the source map describing the input
   },
+  :error_context_lines => 8,    # How many context lines surrounding the error line. Env var ERROR_CONTEXT_LINES overrides this option
   :harmony => false             # Enable ES6/Harmony mode (experimental). Disabling mangling and compressing is recommended with Harmony mode.
 }
 ```
