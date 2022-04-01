@@ -19,11 +19,12 @@ describe "Uglifier" do
       expect(minified.length).to be < source.length
     end
 
-    it "raises an error when minifying JS with Harmony without harmony option" do
-      source = "for (var value of array) { doSomething(value) }"
-      expect { Uglifier.new(:compress => false).compile(source) }
-        .to raise_error(Uglifier::Error, /harmony/)
-    end
+    # Disabling because we are forcing terser in this branch, so there is no way to fail on ES6 features
+    # it "raises an error when minifying JS with Harmony without harmony option" do
+    #   source = "for (var value of array) { doSomething(value) }"
+    #   expect { Uglifier.new(:compress => false).compile(source) }
+    #     .to raise_error(Uglifier::Error, /harmony/)
+    # end
   end
 
   it "throws an exception when compilation fails" do

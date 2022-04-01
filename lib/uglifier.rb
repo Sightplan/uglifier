@@ -31,7 +31,7 @@ class Uglifier
       :ecma => 5, # Set output printing mode. Set ecma to 6 or greater to emit shorthand object properties - i.e.: {a} instead of {a: a}. Non-compatible features in the abstract syntax tree will still be output as is. For example: an ecma setting of 5 will not convert ES6+ code to ES5.
       :indent_level => 4, # Indent level in spaces
       :indent_start => 0, # Starting indent level
-      :inline_script => true, # Escape occurrences of </script in strings
+      :inline_script => false, # Escape occurrences of </script in strings
       :keep_quoted_props => false, # Keep quotes property names
       :max_line_len => 32 * 1024, # Maximum line length in minified code
       :quote_keys => false, # Quote keys in object literals
@@ -40,6 +40,7 @@ class Uglifier
       :semicolons => true, # Separate statements with semicolons
       :shebang => true, # Preserve shebang (#!) in preamble (shell scripts)
       :webkit => false, # Enable workarounds for WebKit bugs.
+      :preamble => nil, # Preamble for the generated JS file. Can be used to insert any code or comment.
       :wrap_iife => false, # Wrap IIFEs in parenthesis. Note: this disables the negate_iife compression option.
     },
     :mangle => {
@@ -178,7 +179,7 @@ class Uglifier
 
   def context
     @context ||= begin
-      source = harmony? ? source_with(HarmonySourcePath) : source_with(SourcePath)
+      #source = harmony? ? source_with(HarmonySourcePath) : source_with(SourcePath)
       ExecJS.compile(js_source)
     end
   end
